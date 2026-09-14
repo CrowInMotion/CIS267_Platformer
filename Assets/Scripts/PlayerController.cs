@@ -8,13 +8,20 @@ using UnityEngine;
 //this is required for loading a scene
 using UnityEngine.SceneManagement;
 
-public class Player_Controller : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     //we need to access the rigidbody2d on the player
     private Rigidbody2D player_rb;
     //we need to have a variable to control the speed of the player
     [SerializeField]
     private float movementSpeed;
+    [SerializeField]
+    private float jumpForce;
+    //how many jumps the player can perform
+    private int numJumps;
+    //max number of jumps can perform until they need to touch the ground
+    [SerializeField]
+    private int maxNumJumps;
 
     void Start()
     {
@@ -28,6 +35,7 @@ public class Player_Controller : MonoBehaviour
     void Update()
     {
         movePlayerLateral();
+        jump();
     }
 
     private void movePlayerLateral()
@@ -56,6 +64,15 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
+    private void jump()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && numJumps <= maxNumJumps)
+        {
+            player_rb.linearVelocity = new Vector2(player_rb.linearVelocity.x, jumpForce);
+            numJumps++;
+        }
+    }
+
     //This is a prebuilt function that will detect collisions
     //in order to detect collisions both of the following must be true:
     //1. both objects need to have a collider
@@ -69,5 +86,27 @@ public class Player_Controller : MonoBehaviour
             Debug.Log("Restart Level");
             SceneManager.LoadScene("SampleScene");
         }    
+        else if (collision.gameObject.CompareTag("Ground"))
+        {
+            numJumps = 1;
+        }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("DoubleJump"))
+        {
+            maxNumJumps++;
+            Destroy(collision.gameObject);
+        }
+    }
+
+    //wall jumps using OnCollisionStay2D
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    if(collision.gameObject.CompareTag("Ground"))
+    //    {
+    //        numJumps = 1;
+    //    }
+    //}
 }
