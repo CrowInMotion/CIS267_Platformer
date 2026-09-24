@@ -1,0 +1,70 @@
+using UnityEngine;
+
+//this will be attached to a random gameObject. It does not need to be attached to the collectable
+
+public class CollectibleSpawner : MonoBehaviour
+{
+    //these will be used to determine where to spawn the collectable
+    //I will get these values from the empty gameObjects we created by referencing their x and y values
+    public GameObject lowestYSpawn;
+    public GameObject highestYSpawn;
+
+    //These are public variables that allow me to drag and drop our prefabs
+    public GameObject blueCollectible;
+    public GameObject purpleCollectible;
+    public GameObject redCollectible;
+
+    //random number to determine which of the collectables to spawn
+    private int randomNum;
+
+    //which collectable to spawn
+    private GameObject collectibleToSpawn;
+
+    //we need a reference to time so we can determine how often to spawn a collectable
+    private float time;
+
+    //we need a delay to specify how long to wait between spawns
+    public float delay;
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        //add to time. see how much time has passed since the last fram
+
+        time += Time.deltaTime;
+
+        if (time >= delay)
+        {
+            spawnObject();
+            //reset our timer to 0
+            time = 0f;
+        }
+    }
+
+    private void spawnObject()
+    {
+        //get a random number to determine which object to spawn
+
+        randomNum = Random.Range(0, 3);
+
+        if (randomNum == 0)
+        {
+            //if the number is 0, spawn a blue collectable
+            collectibleToSpawn = Instantiate(blueCollectible);
+        }
+        else if (randomNum == 1)
+        {
+            //if the number is 1, spawn a purple collectable
+            collectibleToSpawn = Instantiate(purpleCollectible);
+        }
+        else if (randomNum == 2)
+        {
+            //if the number is 2, spawn a red collectable
+            collectibleToSpawn = Instantiate(redCollectible);
+        }
+
+        //tell the collectible where to spawn
+        collectibleToSpawn.transform.position = new Vector2(lowestYSpawn.transform.position.x, Random.Range(lowestYSpawn.transform.position.y, highestYSpawn.transform.position.y));
+    }
+}

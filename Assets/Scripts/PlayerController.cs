@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int maxNumJumps;
 
+    //where on the player the hat should be placed.
+    public GameObject doubleJumpHatLocation;
+
     void Start()
     {
         //we need to set the player rigidbody variable
@@ -56,7 +59,7 @@ public class PlayerController : MonoBehaviour
         //this function will make the player face the direction they are moving
         if(input > 0)
         {
-            transform.eulerAngles = new Vector3(input, 0, 0);
+            transform.eulerAngles = new Vector3(0, 0, 0);
         }
         else if(input < 0)
         {
@@ -96,9 +99,23 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("DoubleJump"))
         {
-            maxNumJumps++;
-            Destroy(collision.gameObject);
+            maxNumJumps = 2;
+            GameObject hat = collision.gameObject;
+            equipDoubleJumpHat(hat);
+            //Destroy(collision.gameObject);
         }
+
+        //if (collision.gameObject.CompareTag("Hands"))
+        //{
+        //    GameObject hands = collision.gameObject;
+        //    equipHands(hands);
+        //}
+    }
+
+    private void equipDoubleJumpHat(GameObject hat)
+    {
+        hat.transform.position = doubleJumpHatLocation.transform.position;
+        hat.transform.SetParent(this.gameObject.transform);
     }
 
     //wall jumps using OnCollisionStay2D
