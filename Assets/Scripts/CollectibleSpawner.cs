@@ -30,7 +30,7 @@ public class CollectibleSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //add to time. see how much time has passed since the last fram
+        //add to time. see how much time has passed since the last frame
 
         time += Time.deltaTime;
 

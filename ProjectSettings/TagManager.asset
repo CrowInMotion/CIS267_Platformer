@@ -9,6 +9,9 @@ TagManager:
   - DoubleJump
   - MoveWallLeftBound
   - MoveWallRightBound
+  - Collectible
+  - BigMouth
+  - AbsorbField
   layers:
   - Default
   - TransparentFX

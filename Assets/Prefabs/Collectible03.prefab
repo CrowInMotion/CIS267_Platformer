@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Collectible03
       objectReference: {fileID: 0}
+    - target: {fileID: 6363839861255557094, guid: 749f0dd9410f67a43a01217d9e50335c, type: 3}
+      propertyPath: m_TagString
+      value: Collectible
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

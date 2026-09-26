@@ -4,14 +4,17 @@
 //Desc  : Handles all player interaction with World
 //=======================================================
 
+using System.Runtime.CompilerServices;
 using UnityEngine;
 //this is required for loading a scene
 using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour
 {
     //we need to access the rigidbody2d on the player
     private Rigidbody2D player_rb;
+
     //we need to have a variable to control the speed of the player
     [SerializeField]
     private float movementSpeed;
@@ -22,6 +25,7 @@ public class PlayerController : MonoBehaviour
     //max number of jumps can perform until they need to touch the ground
     [SerializeField]
     private int maxNumJumps;
+    [SerializeField]
 
     //where on the player the hat should be placed.
     public GameObject doubleJumpHatLocation;
@@ -49,7 +53,7 @@ public class PlayerController : MonoBehaviour
         //0 - no button pressed
         //1 - right arrow or d
         //2 - left arror or a pressed
-        float inputHorizontal = Input.GetAxisRaw("Horizontal");
+        float inputHorizontal = UnityEngine.Input.GetAxisRaw("Horizontal");
         flipPlayerSprite(inputHorizontal);
         player_rb.linearVelocity = new Vector2(inputHorizontal * movementSpeed, player_rb.linearVelocityY);
     }
@@ -69,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
     private void jump()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && numJumps <= maxNumJumps)
+        if(UnityEngine.Input.GetKeyDown(KeyCode.Space) && numJumps <= maxNumJumps)
         {
             player_rb.linearVelocity = new Vector2(player_rb.linearVelocity.x, jumpForce);
             numJumps++;
@@ -105,11 +109,11 @@ public class PlayerController : MonoBehaviour
             //Destroy(collision.gameObject);
         }
 
-        //if (collision.gameObject.CompareTag("Hands"))
-        //{
-        //    GameObject hands = collision.gameObject;
-        //    equipHands(hands);
-        //}
+        if (collision.gameObject.CompareTag("Collectible"))
+        {
+            Destroy(collision.gameObject);
+        }
+
     }
 
     private void equipDoubleJumpHat(GameObject hat)
