@@ -8,8 +8,6 @@ public class PowerUpController : MonoBehaviour
     public GameObject openMouth;
     public GameObject fullMouth;
     public GameObject blush;
-    public GameObject leftBlush;
-    public GameObject rightBlush;
     public GameObject absorbField;
     public GameObject eyesDefault;
     public GameObject eyesBM;
